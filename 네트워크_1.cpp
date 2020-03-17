@@ -43,7 +43,7 @@ int solution(int n, vector<vector<int>> computers) {
 		counting_num++;
 	}
 
-	cout << n << " " << num << endl;
+	answer = n - num;
 
 	return answer;
 }
