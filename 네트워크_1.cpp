@@ -3,44 +3,48 @@
 #include <vector>
 using namespace std;
 
-int func(int* set, int k) {
+int getParent(int* set, int k) {
 	if (set[k] == k) return k;
-	return set[k] = func(set, set[k]);
+	return set[k] = getParent(set, set[k]);
+}
+void unionParent(int* set, int a, int b) {
+	a = getParent(set, a);
+	b = getParent(set, b);
+
+	if (a < b) set[b] = a;
+	else set[a] = b;
+}
+int findParent(int* set, int a, int b) {
+	a = getParent(set, a);
+	b = getParent(set, b);
+	if (a == b) return 1;
+	else return 0;
 }
 
 int solution(int n, vector<vector<int>> computers) {
 	int answer = 0;
-	int counting_num = 0;
-	int* set = new int[n];
-	int* s_set = new int[n];
-	for (int i = 0; i < n; i++) {
-		set[i] = i;
-		s_set[i] = -1;
-	}
-	vector<int> computer;
-	for (auto it = computers.begin(); it != computers.end(); ++it){
-		computer = *it;
 
-		for (int j = counting_num + 1; j < n; j++) {
-			if (computer[j] == 1) {
-				set[j] = counting_num;
-				//cout << "computer set[" << j << "]: " << counting_num << endl;
+	int counting_num = 1, num = 0;
+
+	//set array¿¡ ¹èÄ¡
+	int* set = new int[n + 1];
+	for (int i = 1; i <= n; i++)
+		set[i] = i;
+
+	for (int i = 0; i < computers.size(); i++) {
+		for (int j = 0; j < n; j++) {
+			if (computers[i][j] == 1) {
+				if (!findParent(set, counting_num, j + 1)) {
+					num++;
+					unionParent(set, counting_num, j + 1);
+				}
 			}
 		}
-		computer.clear();
 		counting_num++;
 	}
 
-	for (int i = 0; i < n; i++) {
-		func(set, i);
-	}
-	
-	for (int i = 0; i < n; i++) {
-		computer.push_back(set[i]);
-	}
-	sort(computer.begin(), computer.end());
-	computer.erase(unique(computer.begin(), computer.end()), computer.end());
-	answer = computer.size();
+	cout << n << " " << num << endl;
+
 	return answer;
 }
 
