@@ -1,15 +1,14 @@
-
-keypad = {1:0,2:1, 3:2,4:3, 5:4, 6:5,7:6, 8:7, 9:8, '*':9, 0:10, '#':11}
-distance_2 = [1, 0, 1, 4, 1, 4, 5, 2, 5, 10, 3, 10]
-distance_5 = [4, 1, 4, 1, 0, 1, 4, 1, 4, 5, 2, 5]
-distance_8 = [5, 2, 5, 4, 1, 4,1, 0, 1, 4, 1, 4]
-distance_0 = [10, 3, 10, 5, 2, 5, 4, 1, 4, 1, 0, 1]
+keypad = {1:0, 2:1, 3:2,4:3, 5:4, 6:5,7:6, 8:7, 9:8, '*':9, 0:10, '#':11}
+distance_2 = [1, 0, 1, 2, 1, 2, 3, 2, 3, 4, 3, 4]
+distance_5 = [2, 1, 2, 1, 0, 1, 2, 1, 2, 3, 2, 3]
+distance_8 = [3, 2, 3, 2, 1, 2, 1, 0, 1, 2, 1, 2]
+distance_0 = [4, 3, 4, 3, 2, 3, 2, 1, 2, 1, 0, 1]
 
 def solution(numbers, hand):
     answer = ''
     key_left = '*'
     key_right = '#'
-    print(distance_2[keypad[key_left]])
+
     for i in numbers:
         if i == 1 or i == 4 or i == 7:
             key_left = i
@@ -75,5 +74,3 @@ def solution(numbers, hand):
                     answer += 'R'
 
     return answer
-
-print(solution([1, 3, 4, 5, 8, 2, 1, 4, 5, 9, 5], "right"))
