@@ -1,4 +1,4 @@
-# import queue
+# 내 풀이
 # def solution(n):
 #     answer = []
 #     answer.append(0)
@@ -17,14 +17,15 @@
 #         answer = _answer
 #     return answer
 
-def solution(n):
-    fold = 0
-    arr = [fold]
-
-    for i in range(n - 1):
-        arr = arr + [fold] + [bit ^ 1 for bit in arr[::-1]]
-
-    return arr
+# 다른 사람 풀이
+# def solution(n):
+#     fold = 0
+#     arr = [fold]
+#
+#     for i in range(n - 1):
+#         arr = arr + [fold] + [bit ^ 1 for bit in arr[::-1]]
+#
+#     return arr
 
 n = 2
 print(solution(4))
