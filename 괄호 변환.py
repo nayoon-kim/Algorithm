@@ -60,3 +60,4 @@ def solution(p):
             if c =='(': answer += ')'
             else: answer+='('
     return answer
+print(solution(')()('))
