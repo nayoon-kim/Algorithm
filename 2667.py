@@ -27,4 +27,4 @@ for i in range(n):
             dfs(i, j)
 
 print(elem)
-print(result.sort)
+print(sorted(result))
