@@ -1,5 +1,4 @@
 from collections import deque
-import copy
 
 n = int(input())
 table = [list(map(int, input().split())) for i in range(n)]
@@ -49,7 +48,6 @@ def land_bfs(c):
                     return
                 v[_x][_y] = v[x][y] + 1
                 queue.appendleft([_x, _y])
-    return n
 
 def task():
     global land
@@ -59,10 +57,6 @@ def task():
             if not visited[i][j] and table[i][j] == 1:
                 land += 1
                 bfs(i, j, land)
-
-    v = [[False] * n for _ in range(n)]
-    total_min =  200
-
     for i in range(2, land + 1):
         land_bfs(i)
     print(result)
