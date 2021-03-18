@@ -1,4 +1,5 @@
 import sys
+from collections import deque
 
 n, m = map(int, sys.stdin.readline().rstrip().split())
 
@@ -11,19 +12,25 @@ dy = [0, 0, 1, -1]
 
 result = n * m
 
-def dfs(_x, _y, count): 
+def bfs(_x, _y):
     global result
+    q = deque()
+    q.append([_x, _y, 1])
     visited[_x][_y] = True
-    if _x == n - 1 and _y == m - 1:
-        result = min(result, count)
+    while q:
+        xx, yy, count = q.popleft()
 
-    for i in range(4):
-        x = _x + dx[i]
-        y = _y + dy[i]
+        if xx == n - 1 and yy == m - 1:
+            result = min(result, count)
 
-        if 0 <= x < n and 0 <= y < m and not visited[x][y] and table[x][y] == 1:
-            dfs(x, y, count + 1)
+        for i in range(4):
+            x = xx + dx[i]
+            y = yy + dy[i]
+
+            if 0 <= x < n and 0 <= y < m and not visited[x][y] and table[x][y] == 1:
+                visited[x][y] = True
+                q.append([x, y, count + 1])
         
-dfs(0, 0, 1)
+bfs(0, 0)
 
 print(result)
