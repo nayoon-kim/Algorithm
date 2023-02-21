@@ -44,6 +44,10 @@ public class Lessons_13_FibFrog {
             return;
         }
 
+        if (MIN != -1 && MIN < count) {
+            return;
+        }
+
         for(int i = index + 1, size = list.size(); i < size; i++) {
             if (F[list.get(i) - list.get(index)]) {
                 findMin(i, count + 1);
