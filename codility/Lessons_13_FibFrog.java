@@ -1,52 +1,53 @@
 import java.util.*;
 
 public class Lessons_13_FibFrog {
-    static Map<Integer, Boolean> F;
-    static int size, min;
-    static int[] AA;
+    static int[] fib;
+    static boolean[] F;
+    static List<Integer> list;
+    static int MIN = Integer.MAX_VALUE;
+    static int destination;
     public int solution(int[] A) {
-        size = A.length;
-        int result = 0;
-        min = Integer.MAX_VALUE;
-        AA = new int[size + 2];
-        for(int i = 0; i < size; i++) {
-            AA[i + 1] = A[i];
+        int max = 27;
+        fib = new int[max];
+        fib[0] = 0;
+        fib[1] = 1;
+        fib[2] = 1;
+        F = new boolean[200000];
+        F[0] = true;
+        F[1] = true;
+
+        for(int i = 3; i < max; i++) {
+            fib[i] = fib[i-1] + fib[i-2];
+            F[fib[i]] = true;
         }
-        AA[size + 1] = 1;
-        F = makeFibonacci();
 
-        track(0, 0);
+        list = new ArrayList<>();
+        for(int i = 0, size = A.length; i < size; i++) {
+            if (A[i] == 1)
+                list.add(i + 1);
+        }
+        list.add(A.length + 1);
+        destination = A.length + 1;
+        for(int i = 0, size = list.size(); i < size; i++) {
+            if (F[list.get(i)]) {
+                findMin(i, 1);
+            }
+        }
 
-        return min;
+        return MIN;
     }
 
-    public static void track(int start, int jump) {
-        if (start == size + 1) {
-            if (min > jump) {
-                min = jump;
-            }
+    public static void findMin(int index, int count)
+    {
+        if (list.size() - 1 <= index) {
+            MIN = count < MIN ? count : MIN;
             return;
         }
 
-        for(int i = start; i < size + 2; i++) {
-            // no move
-            if (start - i == 0) continue;
-
-            if (AA[i] == 1 && F.getOrDefault(i - start, false)) {
-                track(i, jump + 1);
+        for(int i = index + 1, size = list.size(); i < size; i++) {
+            if (F[list.get(i) - list.get(index)]) {
+                findMin(i, count + 1);
             }
         }
-    }
-
-    public static Map<Integer, Boolean> makeFibonacci() {
-        int[] F = new int[size + 1];
-        Map<Integer, Boolean> map = new HashMap<>();
-        F[0] = 0;
-        F[1] = 1;
-        for(int i = 2; i <= size; i++) {
-            F[i] = F[i - 1] + F[i - 2];
-            map.put(F[i], true);
-        }
-        return map;
     }
 }
