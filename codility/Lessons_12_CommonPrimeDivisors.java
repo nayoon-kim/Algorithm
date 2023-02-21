@@ -1,4 +1,4 @@
-public class Lessons_13_CommonPrimeDivisors {
+public class Lessons_12_CommonPrimeDivisors {
     public int solution(int[] A, int[] B) {
         int result = 0;
         for(int i = 0, size = A.length; i < size; i++) {
