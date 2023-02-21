@@ -28,7 +28,7 @@ public class Lessons_13_FibFrog {
         }
         list.add(A.length + 1);
         destination = A.length + 1;
-        for(int i = 0, size = list.size(); i < size; i++) {
+        for(int i = list.size() - 1; i > -1; i--) {
             if (F[list.get(i)]) {
                 findMin(i, 1);
             }
