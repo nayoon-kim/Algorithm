@@ -1,10 +1,23 @@
 import java.util.*;
 
+class Point {
+    public int pos;
+    public int count;
+    public Point(int pos, int count) {
+        this.pos = pos;
+        this.count = count;
+    }
+    public String toString()
+    {
+        return "pos: " + this.pos + ", count: " + this.count;
+    }
+}
 public class Lessons_13_FibFrog {
+    Queue<Point> queue;
     static int[] fib;
     static boolean[] F;
     static List<Integer> list;
-    static int MIN = Integer.MAX_VALUE;
+    static int MIN = -1;
     static int destination;
     public int solution(int[] A) {
         int max = 27;
@@ -22,36 +35,29 @@ public class Lessons_13_FibFrog {
         }
 
         list = new ArrayList<>();
+        list.add(0);
         for(int i = 0, size = A.length; i < size; i++) {
             if (A[i] == 1)
                 list.add(i + 1);
         }
         list.add(A.length + 1);
         destination = A.length + 1;
-        for(int i = list.size() - 1; i > -1; i--) {
-            if (F[list.get(i)]) {
-                findMin(i, 1);
+        queue = new LinkedList<>();
+        queue.add(new Point(0, 0));
+
+        while(!queue.isEmpty()) {
+            Point temp = queue.poll();
+
+            if (list.size() - 1 == temp.pos) {
+                MIN = temp.count;
+                break;
+            }
+            for(int i = list.size() - 1; i > temp.pos; i--) {
+                if (F[list.get(i) - list.get(temp.pos)])
+                    queue.add(new Point(i, temp.count + 1));
             }
         }
 
         return MIN;
-    }
-
-    public static void findMin(int index, int count)
-    {
-        if (list.size() - 1 <= index) {
-            MIN = count < MIN ? count : MIN;
-            return;
-        }
-
-        if (MIN != -1 && MIN < count) {
-            return;
-        }
-
-        for(int i = index + 1, size = list.size(); i < size; i++) {
-            if (F[list.get(i) - list.get(index)]) {
-                findMin(i, count + 1);
-            }
-        }
     }
 }
