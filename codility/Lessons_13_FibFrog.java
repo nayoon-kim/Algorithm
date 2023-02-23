@@ -1,63 +1,57 @@
 import java.util.*;
 
-class Point {
-    public int pos;
-    public int count;
-    public Point(int pos, int count) {
-        this.pos = pos;
-        this.count = count;
-    }
-    public String toString()
-    {
-        return "pos: " + this.pos + ", count: " + this.count;
-    }
-}
 public class Lessons_13_FibFrog {
-    Queue<Point> queue;
-    static int[] fib;
-    static boolean[] F;
-    static List<Integer> list;
-    static int MIN = -1;
-    static int destination;
     public int solution(int[] A) {
+        int[] aA = new int[A.length + 2];
+        aA[0] = 0;
+        aA[A.length + 1] = 1;
+        for(int i = 0; i < A.length; i++) {
+            aA[i + 1] = A[i];
+        }
+
         int max = 27;
-        fib = new int[max];
+        int[] fib = new int[max];
         fib[0] = 0;
         fib[1] = 1;
         fib[2] = 1;
-        F = new boolean[200000];
-        F[0] = true;
-        F[1] = true;
-
-        for(int i = 3; i < max; i++) {
-            fib[i] = fib[i-1] + fib[i-2];
-            F[fib[i]] = true;
+        for(int i = 2; i < max; i++)
+        {
+            fib[i] = fib[i - 1] + fib[i - 2];
         }
 
-        list = new ArrayList<>();
-        list.add(0);
-        for(int i = 0, size = A.length; i < size; i++) {
-            if (A[i] == 1)
-                list.add(i + 1);
-        }
-        list.add(A.length + 1);
-        destination = A.length + 1;
-        queue = new LinkedList<>();
+        int AMaxSize = A.length + 1;
+        boolean[] visited = new boolean[AMaxSize];
+
+        Queue<Point> queue = new LinkedList<>();
         queue.add(new Point(0, 0));
 
         while(!queue.isEmpty()) {
-            Point temp = queue.poll();
+            Point point = queue.poll();
 
-            if (list.size() - 1 == temp.pos) {
-                MIN = temp.count;
-                break;
-            }
-            for(int i = list.size() - 1; i > temp.pos; i--) {
-                if (F[list.get(i) - list.get(temp.pos)])
-                    queue.add(new Point(i, temp.count + 1));
+            for(int i = 2; i < max; i++) {
+                int temp = point.x + fib[i];
+                if (temp == A.length + 1) {
+                    return point.y + 1;
+                } else {
+                    if (temp < A.length + 1 && aA[temp] == 1 && !visited[temp]) {
+                        visited[temp] = true;
+                        queue.add(new Point(temp, point.y + 1));
+                    }
+                }
             }
         }
+        return -1;
+    }
 
-        return MIN;
+    class Point {
+        public int x;
+        public int y;
+        public Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+        public String toString() {
+            return "[x: " + x + ", y: " + y + "]";
+        }
     }
 }
