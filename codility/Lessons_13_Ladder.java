@@ -5,24 +5,25 @@ public class Lessons_13_Ladder {
         int size = A.length;
         int[] result = new int[size];
 
-        double[] fib = makeFib();
 
         for(int i = 0; i < size; i++) {
-            result[i] = (int)(fib[A[i]] % Math.pow(2, B[i]));
+            int fib = makeFib(A[i], B[i]);
+            result[i] = fib;
         }
         return result;
     }
 
-    public static double[] makeFib()
+    public static int makeFib(int a, int b)
     {
-        double[] fb = new double[50001];
-        fb[0] = 1.0;
-        fb[1] = 1.0;
-
-        for(int i = 2; i < 50001; i++) {
-            fb[i] = fb[i - 1] + fb[i - 2];
+        int modulo = (int)Math.pow(2, b);
+        int t1 = 1;
+        int t2 = 1;
+        for(int i = 2; i <= a; i++) {
+            int t3 = (t1 + t2) % modulo;
+            t1 = t2;
+            t2 = t3;
         }
 
-        return fb;
+        return t2;
     }
 }
