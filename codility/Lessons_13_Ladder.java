@@ -2,28 +2,27 @@ import java.util.*;
 
 public class Lessons_13_Ladder {
     public int[] solution(int[] A, int[] B) {
-        Queue<Integer> queue = new LinkedList<>();
         int size = A.length;
         int[] result = new int[size];
 
-        for(int i = 0; i < size; i++) {
-            queue = new LinkedList<>();
-            queue.add(0);
-            int r = 0;
-            while(!queue.isEmpty()) {
-                int temp = queue.poll();
+        double[] fib = makeFib();
 
-                for(int j = 1; j < 3; j++) {
-                    if (temp + j == A[i]) {
-                        r += 1;
-                    } else if (temp + j < A[i]) {
-                        queue.add(temp + j);
-                    }
-                }
-            }
-            result[i] = r % (int)Math.pow(2, B[i]);
+        for(int i = 0; i < size; i++) {
+            result[i] = (int)(fib[A[i]] % Math.pow(2, B[i]));
+        }
+        return result;
+    }
+
+    public static double[] makeFib()
+    {
+        double[] fb = new double[50001];
+        fb[0] = 1.0;
+        fb[1] = 1.0;
+
+        for(int i = 2; i < 50001; i++) {
+            fb[i] = fb[i - 1] + fb[i - 2];
         }
 
-        return result;
+        return fb;
     }
 }
